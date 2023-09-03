@@ -12,8 +12,23 @@ public class MovieRepository {
     Map<String,Director> d = new HashMap<>();
 
     Map<Movie,Director> md = new HashMap<>();
+
+    Map<Director,List<Movie>> directormoviedb = new HashMap<>();
     public void addMovieDirectorPair(Movie movie, Director director) {
         md.put(movie,director);
+        if(directormoviedb.containsKey(director))
+        {
+            List<Movie> list = directormoviedb.get(director);
+            list.add(movie);
+            directormoviedb.put(director,list);
+        }
+        else
+        {
+            List<Movie> list = new ArrayList<>();
+            list.add(movie);
+            directormoviedb.put(director,list);
+        }
+
     }
 
     public void addMovie(Movie movie) {
@@ -33,14 +48,21 @@ public class MovieRepository {
     }
 
     public List<String> getMoviesByDirectorName(String name) {
-        List<String> arr = new ArrayList<>();
-        for(Movie m : md.keySet()) {
-
-            Director curr = md.get(m);
-            String s = curr.getName();
-            if(name.equals(s)) arr.add(m.getName());
+        List<Movie> arr = new ArrayList<>();
+        List<String> ans = new ArrayList<>();
+        for(Director d : directormoviedb.keySet())
+        {
+            if(d.getName() == name)
+            {
+                arr = directormoviedb.get(d);
+            }
         }
-        return arr;
+
+        for(Movie m : arr)
+        {
+            ans.add(m.getName());
+        }
+        return ans;
     }
 
     public List<String> findAllMovies() {
@@ -54,18 +76,24 @@ public class MovieRepository {
     }
 
     public void deleteDirectorByName(String name) {
-        for(Movie m : md.keySet())
-        {
-            Director curr = md.get(m);
-            String s = curr.getName();
-            if(name.equals(s))
-            {
-                md.remove(m);
-            }
-        }
+       d.remove(name);
+       for(Movie m : md.keySet())
+       {
+           if(md.get(m).getName()== name) md.remove(m);
+       }
+
+       for(Director d : directormoviedb.keySet())
+       {
+           if(d.getName() == name)
+           {
+               directormoviedb.remove(d);
+           }
+       }
     }
 
     public void deleteAllDirectors() {
         md.clear();
+        directormoviedb.clear();
+        d.clear();
     }
 }
