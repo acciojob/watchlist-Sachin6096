@@ -39,7 +39,7 @@ public class MovieRepository {
     }
 
     public boolean addMovie(Movie movie) {
-        if(m.isEmpty() || !m.containsKey(movie.getName()))
+        if(m.isEmpty() || !m.containsKey(movie))
         {
             m.put(movie.getName(),movie);
             return true;
@@ -48,7 +48,7 @@ public class MovieRepository {
     }
 
     public boolean addDirector(Director director) {
-        if(d.isEmpty() || !d.containsKey(director.getName()))
+        if(d.isEmpty() || !d.containsKey(director))
         {
             d.put(director.getName(),director);
             return true;
