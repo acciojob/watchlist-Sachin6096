@@ -11,40 +11,68 @@ public class MovieRepository {
     Map<String,Movie> m = new HashMap<>();
     Map<String,Director> d = new HashMap<>();
 
+
     Map<Movie,Director> md = new HashMap<>();
 
     Map<Director,List<Movie>> directormoviedb = new HashMap<>();
-    public void addMovieDirectorPair(Movie movie, Director director) {
-        md.put(movie,director);
-        if(directormoviedb.containsKey(director))
+    public boolean addMovieDirectorPair(String movieName, String directorName) {
+
+        if(m.containsKey(movieName) && d.containsKey(directorName))
         {
-            List<Movie> list = directormoviedb.get(director);
-            list.add(movie);
-            directormoviedb.put(director,list);
-        }
-        else
-        {
-            List<Movie> list = new ArrayList<>();
-            list.add(movie);
-            directormoviedb.put(director,list);
+            md.put(getMovieByName(movieName),getDirectorByName(directorName));
+            if(directormoviedb.containsKey(getDirectorByName(directorName)))
+            {
+                List<Movie> m = directormoviedb.get(getDirectorByName(directorName));
+                m.add(getMovieByName(movieName));
+                directormoviedb.put(getDirectorByName(directorName),m);
+            }
+            else
+            {
+                List<Movie> m = new ArrayList<>();
+                m.add(getMovieByName(movieName));
+                directormoviedb.put(getDirectorByName(directorName),m);
+            }
+            return true;
         }
 
+        return false;
     }
 
-    public void addMovie(Movie movie) {
-        m.put(movie.getName(),movie);
+    public boolean addMovie(Movie movie) {
+        if(m.isEmpty() || !m.containsKey(movie.getName()))
+        {
+            m.put(movie.getName(),movie);
+            return true;
+        }
+       return false;
     }
 
-    public void addDirector(Director director) {
-        d.put(director.getName(),director);
+    public boolean addDirector(Director director) {
+        if(d.isEmpty() || !d.containsKey(director.getName()))
+        {
+            d.put(director.getName(),director);
+            return true;
+        }
+
+        return false;
     }
 
     public Movie getMovieByName(String name) {
-        return m.get(name);
+
+        if(m.containsKey(name))
+        {
+            return m.get(name);
+        }
+        return new Movie();
+
     }
 
     public Director getDirectorByName(String director) {
-        return d.get(director);
+       if(d.containsKey(director))
+       {
+           return d.get(director);
+       }
+       return new Director();
     }
 
     public List<String> getMoviesByDirectorName(String name) {
