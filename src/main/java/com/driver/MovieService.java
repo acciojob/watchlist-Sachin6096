@@ -9,8 +9,8 @@ import java.util.List;
 public class MovieService {
 
 
-    @Autowired
-    MovieRepository movieRepository;
+
+    MovieRepository movieRepository = new MovieRepository();
     public boolean addMovie(Movie movie) {
 
         return movieRepository.addMovie(movie);
