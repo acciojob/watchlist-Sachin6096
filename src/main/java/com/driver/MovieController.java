@@ -29,11 +29,11 @@ public class MovieController {
      public ResponseEntity addDirector(@RequestBody Director director)
      {
          boolean response = movieService.addDirector(director);
-         if(response)return new ResponseEntity<>("Dorector added successfully",HttpStatus.OK);
+         if(response)return new ResponseEntity<>("Director added successfully",HttpStatus.OK);
          else return  new ResponseEntity<>("This Director already exist",HttpStatus.BAD_REQUEST);
      }
 
-     @PutMapping("/add-movie-director-pair")
+     @PostMapping ("/add-movie-director-pair")
      public ResponseEntity addMovieDirectorPair(@RequestParam("movie") String movieName, @RequestParam("director") String directorName)
      {
          Boolean response = movieService.addMovieDirecctorPair(movieName,directorName);
